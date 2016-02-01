@@ -1,0 +1,13 @@
+set(ARTK_ARICP_SRCS
+./icpCalibStereo.c
+./icpHandle.c
+./icpPointRobust.c
+./icpStereoPoint.c
+./icpUtil.c
+./icpCore.c
+./icpPoint.c
+./icpStereoHandle.c
+./icpStereoPointRobust.c
+)
+set(ARTK_ARICP_HEADERS
+)
