@@ -7,7 +7,14 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 set(ARTK_VERSION "5.3.1")
 
 set(BUILD_SHARED_LIBS ON)
-set(ARTK_BUILD_TYPE ${CMAKE_BUILD_TYPE})
+
+set(BUILD_EXAMPLES ON CACHE BOOL "Build the examples")
+
+if (NOT CMAKE_BUILD_TYPE)
+    message(STATUS "Setting build type to 'Debug' as none was specified.")
+    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
+endif()
 
 #Looking for OpenCV
 find_package(OpenCV REQUIRED )
@@ -18,47 +25,102 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 find_package(GLUT REQUIRED )
 include_directories(${GLUT_HEADER})
 
+# Looking for OpenGL
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_HEADER})
+
+#Looking for libjpeg
+find_package(JPEG REQUIRED)
+include_directories(${JPEG_INCLUDE_DIR})
+
+set(VIDEO_BACKEND "None" CACHE STRING "Choose the video capture module")
+
+if(APPLE)
+    set_property(CACHE VIDEO_BACKEND PROPERTY STRINGS "QuickTime" "Cam1394_Mac")
+endif()
+
 if(UNIX AND NOT ANDROID)
+    set_property(CACHE VIDEO_BACKEND PROPERTY STRINGS "GStreamer" "Video4Linux" "Video4Linux2" "Cam1394_Linux")
+endif(UNIX AND NOT ANDROID)
 
-    set(ENABLE_GSTREAMER ON CACHE BOOL "Enable Gstreamer capture module.")
-    set(ENABLE_V4L OFF CACHE BOOL "Enable Video4Linux Capture module.")
-    set(ENABLE_CAM1394 OFF CACHE BOOL "Enable the IEEE 1394 Digital Video Camera capture module.")
+if(WIN32)
+    set_property(CACHE VIDEO_BACKEND PROPERTY STRINGS "MediaFondation" "DirectShow")
+endif()
 
-    if(ENABLE_GSTREAMER OR ENABLE_V4L OR ENABLE_CAM1394)
-        set(DEFAULT_CAP_DEVICE "GStreamer" CACHE STRING "Choose the default input device." FORCE)
-        set_property(CACHE DEFAULT_CAP_DEVICE PROPERTY STRINGS "GStreamer" "V4L" "CAM1394")
-    endif()
 
     #This is usefull to enable the desired video backend
     #define all variables to OFF
-
-    set(LINUX_VIDEO_LIB)
+    set(VIDEO_BACKEND_LIBS)
+    #LINUX
+    set(VIDEO_LIB)
     #  Detect 3rd-party video IO libraries
-    if(DEFAULT_CAP_DEVICE STREQUAL "GStreamer")
+    if(VIDEO_BACKEND STREQUAL "GStreamer")
         find_package(GStreamer)
         include_directories(${GSTREAMER_INCLUDE_DIRS})
-        set(LINUX_VIDEO_LIB ${GSTREAMER_LIBRARIES})
+        set(VIDEO_LIB ${GSTREAMER_LIBRARIES})
 
         set(AR_INPUT_GSTREAMER ON)
         set(AR_DEFAULT_INPUT_GSTREAMER ON)
 
-    elseif(DEFAULT_CAP_DEVICE STREQUAL "V4L")
+        set(VIDEO_BACKEND_LIBS "ARVideoGStreamer")
+
+    elseif(VIDEO_BACKEND STREQUAL "Video4Linux")
         find_package(V4L)
-        set(LINUX_VIDEO_LIB ${Video4Linux_LIB})
+        set(VIDEO_LIB ${Video4Linux_LIB})
         include_directories(${Video4Linux_HEADER})
 
         set(AR_INPUT_V4L ON)
         set(AR_DEFAULT_INPUT_V4L ON)
 
-    elseif(DEFAULT_CAP_DEVICE STREQUAL "CAM1394")
+        set(VIDEO_BACKEND_LIBS "ARVideoLinuxV4L")
+
+    elseif(VIDEO_BACKEND STREQUAL "Cam1394_Linux")
         find_package(lib1394dc)
-        set(LINUX_VIDEO_LIB ${lib1394dc_LIB})
+        set(VIDEO_LIB ${lib1394dc_LIB})
         include_directories(${lib1394dc_HEADER})
         set(AR_INPUT_CAM1394 ON)
         set(AR_DEFAULT_INPUT_1394CAM ON)
-    endif()
 
-endif(UNIX AND NOT ANDROID)
+        set(VIDEO_BACKEND_LIBS "ARVideoLinux1394Cam")
+
+    elseif(VIDEO_BACKEND STREQUAL "Video4Linux2")
+        #TODO
+        find_package(V4L2)
+        set(VIDEO_LIB ${V4L2_LIB})
+        include_directories(${V4L2_HEADER})
+
+        set(AR_INPUT_V4L2 ON)
+        set(AR_DEFAULT_INPUT_V4L2 ON)
+
+        set(VIDEO_BACKEND_LIBS "ARVideoLinuxV4L2")
+
+    #APPLE
+    elseif(VIDEO_BACKEND STREQUAL "QuickTime")
+        find_package(QuickTime)
+        set(VIDEO_LIB ${QUICKTIME_LIBRARY})
+        include_directories(${QUICKTIME_INCLUDE_DIR})
+
+        set(AR_INPUT_QUICKTIME7 ON)
+        set(AR_DEFAULT_INPUT_QUICKTIME7 ON)
+
+        set(VIDEO_BACKEND_LIBS "ARVideoQuickTime7")
+        #TODO
+
+    elseif(VIDEO_BACKEND STREQUAL "Cam1394_Mac")
+        #TODO
+    #Windows
+    elseif(VIDEO_BACKEND STREQUAL "MediaFondation")
+        #TODO
+        set(VIDEO_BACKEND_LIBS "ARVideoWinMF")
+
+    elseif(VIDEO_BACKEND STREQUAL "DirectShow")
+        #TODO
+        set(VIDEO_BACKEND_LIBS "ARVideoWinDS")
+    #Others cases like "None"
+    else()
+        #TODO
+        set(VIDEO_BACKEND_LIBS "ARVideoWinDummy")
+    endif()
 
 set(ENABLE_VRML_RENDER_EXAMPLES OFF CACHE BOOL "Enable VRML Render and Examples.")
 set(ENABLE_OSG_RENDER_EXAMPLES OFF CACHE BOOL "Enable OpenSceneGraph Render and Examples.")
@@ -102,15 +164,20 @@ endif()
 set(ARTK_INCLUDE_DIR "${ARToolKit_SOURCE_DIR}/include")
 
 #Configuration of config.h with all options of the CMakeLists
-message(STATUS "---------------- options : -------------")
-message(STATUS "| AR_INPUT_GSTREAMER : ${AR_INPUT_GSTREAMER}      | ")
-message(STATUS "| AR_DEFAULT_INPUT_GSTREAMER : ${AR_DEFAULT_INPUT_GSTREAMER}    | ")
-message(STATUS "| AR_INPUT_V4L : ${AR_INPUT_V4L}      | ")
-message(STATUS "| AR_DEFAULT_INPUT_V4L : ${AR_DEFAULT_INPUT_V4L}    | ")
-message(STATUS "| AR_INPUT_CAM1394 : ${AR_INPUT_CAM1394}      | ")
-message(STATUS "| AR_DEFAULT_INPUT_CAM1394 : ${AR_DEFAULT_INPUT_CAM1394}    | ")
+message(STATUS "---------------- ARTooolkit options : -------------")
+message(STATUS " * Build Type     : ${CMAKE_BUILD_TYPE}")
+message(STATUS " * Build Examples : ${BUILD_EXAMPLES}")
+message(STATUS " * Build Shared   : ${BUILD_SHARED_LIBS}")
+
+message(STATUS " * Video Backend  : ${VIDEO_BACKEND} ")
+message(STATUS " * Found OpenGL   : ${OPENGL_FOUND} ")
+message(STATUS " * Found GLUT     : ${GLUT_FOUND} ")
+message(STATUS " * Found OpenCV   : ${OpenCV_FOUND}")
+message(STATUS " * Found jpeg     : ${JPEG_FOUND}")
+
 
 configure_file(${ARTK_INCLUDE_DIR}/AR/config.h.in ${ARTK_INCLUDE_DIR}/AR/config.h)
 
 #parsing of src
 add_subdirectory(./lib/SRC)
+add_subdirectory(./examples)

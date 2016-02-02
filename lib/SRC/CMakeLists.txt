@@ -1,2 +1,18 @@
+
+if(UNIX AND NOT ANDROID)
+    if(VIDEO_BACKEND STREQUAL "GStreamer")
+        add_subdirectory(./VideoGStreamer)
+    elseif(VIDEO_BACKEND STREQUAL "Video4Linux")
+        add_subdirectory(./VideoV4L)
+    elseif(VIDEO_BACKEND STREQUAL "Cam1394_Linux")
+        add_subdirectory(./VideoLinux1394Cam)
+    endif()
+endif()
+
+add_subdirectory(./Util)
+add_subdirectory(./ARICP)
+add_subdirectory(./Video)
 add_subdirectory(./AR)
 add_subdirectory(./AR2)
+add_subdirectory(./KPM)
+add_subdirectory(./Gl)

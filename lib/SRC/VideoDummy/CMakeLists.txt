@@ -1,0 +1,23 @@
+set(ARTK_VIDEODUMMY_SRCS
+./videoDummy.c
+)
+
+set(ARTK_VIDEODUMMY_HEADERS
+${ARTK_INCLUDE_DIR}/AR/config.h
+${ARTK_INCLUDE_DIR}/AR/arConfig.h
+${ARTK_INCLUDE_DIR}/AR/video.h
+${ARTK_INCLUDE_DIR}/AR/videoConfig.h
+${ARTK_INCLUDE_DIR}/AR/sys/videoDummy.h
+
+add_library(videoDummy ${ARTK_VIDEODUMMY_SRCS} ${ARTK_VIDEODUMMY_HEADERS})
+include_directories( ${ARTK_INCLUDE_DIR} )
+
+
+install(TARGETS videoDummy
+	RUNTIME DESTINATION bin COMPONENT main # Install the dll file in bin directory
+	LIBRARY DESTINATION lib PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE COMPONENT main
+	ARCHIVE DESTINATION lib COMPONENT main) # Install the dll.a file in lib directory
+
+install(FILES ${hdrs}
+	DESTINATION include/${PROJECT_NAME}
+	COMPONENT main)

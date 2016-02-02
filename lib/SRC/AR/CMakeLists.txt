@@ -171,7 +171,7 @@ ${ARTK_INCLUDE_DIR}/AR/param.h)
 add_library(AR ${ARTK_AR_SRCS} ${ARTK_AR_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR})
 
-target_link_libraries(AR ${OpenCV_LIBS})
+target_link_libraries(AR ${OpenCV_LIBS} ${ARIcp})
 
 install(TARGETS AR
 	RUNTIME DESTINATION bin COMPONENT main			# Install the dll file in bin directory
