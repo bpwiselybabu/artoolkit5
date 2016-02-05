@@ -23,7 +23,7 @@ ${ARTK_INCLUDE_DIR}/AR/icpCalib.h
 add_library(ARIcp ${ARTK_ARICP_SRCS} ${ARTK_ARICP_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR} )
 
-#target_link_libraries(ARIcp ${GSTREAMER_LIBRARIES})
+target_link_libraries(ARIcp ARCore)
 
 install(TARGETS ARIcp
 	RUNTIME DESTINATION bin COMPONENT main			# Install the dll file in bin directory

@@ -11,9 +11,22 @@ ${ARTK_INCLUDE_DIR}/AR/arConfig.h
 ${ARTK_INCLUDE_DIR}/AR/ar.h
 ${ARTK_INCLUDE_DIR}/AR/videoConfig.h
 ${ARTK_INCLUDE_DIR}/AR/video.h
+${ARTK_INCLUDE_DIR}/AR/sys/videoDummy.h
+${ARTK_INCLUDE_DIR}/AR/sys/videoImage.h
 )
 
-add_library(ARVideo ${ARTK_AR_VIDEO_SRCS} ${ARTK_AR_VIDEO_HEADERS})
+set(ARTK_AR_DUMMY_VIDEO_SRCS
+../VideoDummy/videoDummy.c
+)
+
+
+set(ARTK_AR_IMAGE_VIDEO_SRCS
+../VideoImage/videoImage.c
+)
+
+
+
+add_library(ARVideo ${ARTK_AR_VIDEO_SRCS} ${ARTK_AR_DUMMY_VIDEO_SRCS} ${ARTK_AR_IMAGE_VIDEO_SRCS} ${ARTK_AR_VIDEO_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR} ${ARTK_INCLUDE_DIR}/ios511/ )
 
 target_link_libraries(ARVideo ${VIDEO_BACKEND_LIBS} ${JPEG_LIBRARIES})

@@ -79,9 +79,8 @@ ${ARTK_INCLUDE_DIR}/KPM/kpmType.h
 
 add_library(KPM ${ARTK_KPM_SRCS} ${ARTK_KPM_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR}  ./FreakMatcher/)
-# ./FreakMatcher/detectors/ ./FreakMatcher/facade/
-# ./FreakMatcher/framework/ ./FreakMatcher/homography_estimation/ ./FreakMatcher/matchers/
-# ./FreakMatcher/math/ ./FreakMatcher/utils/)
+
+target_link_libraries(KPM AR ARIcp ${JPEG_LIBRARIES})
 
 
 install(TARGETS KPM
@@ -89,6 +88,6 @@ install(TARGETS KPM
 	LIBRARY DESTINATION lib PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE COMPONENT main
 	ARCHIVE DESTINATION lib COMPONENT main) # Install the dll.a file in lib directory
 
-install(FILES ${hdrs}
+install(FILES ${ARTK_KPM_HEADERS}
 	DESTINATION include/${PROJECT_NAME}
 	COMPONENT main)

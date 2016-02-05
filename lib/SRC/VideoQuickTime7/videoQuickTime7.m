@@ -38,6 +38,7 @@
  *
  */
 
+#include <AR/ar.h>
 #include <AR/video.h>
 
 #ifdef AR_INPUT_QUICKTIME7
@@ -119,7 +120,7 @@ AR2VideoParamQuickTime7T *ar2VideoOpenQuickTime7( const char *config )
         for(;;) {
             while( *a == ' ' || *a == '\t' ) a++;
             if( *a == '\0' ) break;
-    
+
             if( sscanf(a, "%s", line) == 0 ) break;
 
             if( strncmp( line, "-width=", 7 ) == 0 ) {
@@ -217,7 +218,7 @@ AR2VideoParamQuickTime7T *ar2VideoOpenQuickTime7( const char *config )
 
     // Calling Objective-C from C necessitates an autorelease pool.
     @autoreleasepool {
-    
+
         // Init the QTKitVideo object.
         vid->qtKitVideo = [[QTKitVideo alloc] init];
         if (!vid->qtKitVideo) {
@@ -226,7 +227,7 @@ AR2VideoParamQuickTime7T *ar2VideoOpenQuickTime7( const char *config )
             free (vid);
             return (NULL);
         }
-        
+
         if (source) vid->qtKitVideo.preferredDevice = source;
         if (sourceuid) {
             vid->qtKitVideo.preferredDeviceUID = [NSString stringWithCString:sourceuid encoding:NSUTF8StringEncoding];
@@ -234,15 +235,15 @@ AR2VideoParamQuickTime7T *ar2VideoOpenQuickTime7( const char *config )
         }
         vid->qtKitVideo.showDialogs = showDialog;
         if (noMuxed) vid->qtKitVideo.acceptMuxedVideo = FALSE;
-        
+
         [vid->qtKitVideo startWithRequestedWidth:width height:height pixelFormat:pixFormat];
-        
+
         if (!vid->qtKitVideo.running) {
             NSLog(@"Error: Unable to open connection to camera.\n");
             free (vid);
             return (NULL);
         }
-        
+
         // Report video size and compression type.
         OSType formatType = vid->qtKitVideo.pixelFormat;
         if (formatType > 0x28) ARLOGi("Video formatType is %c%c%c%c, size is %ldx%ld.\n",
@@ -265,7 +266,7 @@ AR2VideoParamQuickTime7T *ar2VideoOpenQuickTime7( const char *config )
             }
         }
         */
-        
+
         vid->qtKitVideo.pause = TRUE;
         vid->qtKitVideoGotFrameDelegate = nil; // Init.
 
@@ -287,8 +288,8 @@ int ar2VideoCloseQuickTime7( AR2VideoParamQuickTime7T *vid )
         free(vid);
         return 0;
     }
-    return (-1);    
-} 
+    return (-1);
+}
 
 int ar2VideoCapStartQuickTime7( AR2VideoParamQuickTime7T *vid )
 {
@@ -310,7 +311,7 @@ int ar2VideoCapStopQuickTime7( AR2VideoParamQuickTime7T *vid )
             @autoreleasepool {
                 vid->qtKitVideo.pause = TRUE;
             }
-            return 0; 
+            return 0;
         }
     }
     return (-1);
@@ -328,22 +329,22 @@ AR2VideoBufferT *ar2VideoGetImageQuickTime7( AR2VideoParamQuickTime7T *vid )
                         CVPixelBufferUnlockBaseAddress(vid->currentFrame, kCVPixelBufferLock_ReadOnly);
                         CVBufferRelease(vid->currentFrame);
                     }
-                    
+
                     vid->currentFrame = frame;
                     vid->currentFrameTimestamp = timestamp;
                     CVPixelBufferLockBaseAddress(frame, kCVPixelBufferLock_ReadOnly);
-                    
+
                     if (!CVPixelBufferGetPlaneCount(frame)) vid->buffer.buff = CVPixelBufferGetBaseAddress(frame);
                     else vid->buffer.buff = CVPixelBufferGetBaseAddressOfPlane(frame, 0);
-                    
+
                     vid->buffer.fillFlag  = 1;
                     vid->buffer.time_sec  = 0;
                     vid->buffer.time_usec = 0;
-                    
+
                     return &(vid->buffer);
                 }
             }
-        }        
+        }
     }
     return (NULL);
 }
@@ -368,7 +369,7 @@ int ar2VideoGetSizeQuickTime7(AR2VideoParamQuickTime7T *vid, int *x,int *y)
 #endif
             return (-1);
         }
-    
+
         return 0;
     }
 }
@@ -377,7 +378,7 @@ AR_PIXEL_FORMAT ar2VideoGetPixelFormatQuickTime7( AR2VideoParamQuickTime7T *vid 
 {
     if (!vid) return (AR_PIXEL_FORMAT_INVALID);
     if (!vid->qtKitVideo) return (AR_PIXEL_FORMAT_INVALID);
-        
+
     @autoreleasepool {
         switch ((vid->qtKitVideo.pixelFormat)) {
             case kCVPixelFormatType_422YpCbCr8: // (previously k2vuyPixelFormat). Preferred YUV format on iPhone 3G.
@@ -385,25 +386,25 @@ AR_PIXEL_FORMAT ar2VideoGetPixelFormatQuickTime7( AR2VideoParamQuickTime7T *vid 
                 break;
             case kCVPixelFormatType_422YpCbCr8_yuvs: // (previously kyuvsPixelFormat)
                 return (AR_PIXEL_FORMAT_yuvs);
-                break; 
+                break;
             case kCVPixelFormatType_24RGB: // (previously k24RGBPixelFormat)
                 return (AR_PIXEL_FORMAT_RGB);
-                break; 
+                break;
             case kCVPixelFormatType_24BGR: // (previously k24BGRPixelFormat)
                 return (AR_PIXEL_FORMAT_BGR);
-                break; 
+                break;
             case kCVPixelFormatType_32ARGB: // (previously k32ARGBPixelFormat)
                 return (AR_PIXEL_FORMAT_ARGB);
-                break; 
+                break;
             case kCVPixelFormatType_32BGRA: // (previously k32BGRAPixelFormat)
                 return (AR_PIXEL_FORMAT_BGRA);
-                break; 
+                break;
             case kCVPixelFormatType_32ABGR: // (previously k32ABGRPixelFormat)
                 return (AR_PIXEL_FORMAT_ABGR);
-                break; 
+                break;
             case kCVPixelFormatType_32RGBA: // (previously k32RGBAPixelFormat)
                 return (AR_PIXEL_FORMAT_RGBA);
-                break; 
+                break;
             case kCVPixelFormatType_8IndexedGray_WhiteIsZero: // (previously k8IndexedGrayPixelFormat)
                 return (AR_PIXEL_FORMAT_MONO);
                 break;
@@ -415,7 +416,7 @@ AR_PIXEL_FORMAT ar2VideoGetPixelFormatQuickTime7( AR2VideoParamQuickTime7T *vid 
                 break;
             default:
                 return (AR_PIXEL_FORMAT_INVALID);
-                break; 
+                break;
         }
     }
 }
@@ -428,7 +429,7 @@ int ar2VideoGetIdQuickTime7( AR2VideoParamQuickTime7T *vid, ARUint32 *id0, ARUin
 int ar2VideoGetParamiQuickTime7( AR2VideoParamQuickTime7T *vid, int paramName, int *value )
 {
     if (!vid || !value) return (-1);
-    
+
     switch (paramName) {
         default:
             return (-1);
@@ -439,7 +440,7 @@ int ar2VideoGetParamiQuickTime7( AR2VideoParamQuickTime7T *vid, int paramName, i
 int ar2VideoSetParamiQuickTime7( AR2VideoParamQuickTime7T *vid, int paramName, int  value )
 {
     if (!vid) return (-1);
-    
+
     switch (paramName) {
         default:
             return (-1);
@@ -450,7 +451,7 @@ int ar2VideoSetParamiQuickTime7( AR2VideoParamQuickTime7T *vid, int paramName, i
 int ar2VideoGetParamdQuickTime7( AR2VideoParamQuickTime7T *vid, int paramName, double *value )
 {
     if (!vid || !value) return (-1);
-    
+
     switch (paramName) {
         default:
             return (-1);
@@ -461,7 +462,7 @@ int ar2VideoGetParamdQuickTime7( AR2VideoParamQuickTime7T *vid, int paramName, d
 int ar2VideoSetParamdQuickTime7( AR2VideoParamQuickTime7T *vid, int paramName, double  value )
 {
     if (!vid) return (-1);
-    
+
     switch (paramName) {
         default:
             return (-1);
@@ -472,7 +473,7 @@ int ar2VideoSetParamdQuickTime7( AR2VideoParamQuickTime7T *vid, int paramName, d
 int ar2VideoGetParamsQuickTime7( AR2VideoParamQuickTime7T *vid, const int paramName, char **value )
 {
     if (!vid || !value) return (-1);
-    
+
     switch (paramName) {
         default:
             return (-1);
@@ -483,7 +484,7 @@ int ar2VideoGetParamsQuickTime7( AR2VideoParamQuickTime7T *vid, const int paramN
 int ar2VideoSetParamsQuickTime7( AR2VideoParamQuickTime7T *vid, const int paramName, const char  *value )
 {
     if (!vid) return (-1);
-    
+
     switch (paramName) {
         default:
             return (-1);
@@ -502,21 +503,21 @@ id ar2VideoGetQTKitVideoInstanceQuickTime7(AR2VideoParamQuickTime7T *vid)
  {
  if (!vid) return (-1);
  if (!vid->qtKitVideo) return (-1);
- 
+
  vid->qtKitVideo.bufWidth = width;
  vid->qtKitVideo.bufHeight = height;
- 
+
  return (0);
  }
- 
+
  int ar2VideoGetBufferSizeQuickTime7(AR2VideoParamQuickTime7T *vid, int *width, int *height)
  {
  if (!vid) return (-1);
  if (!vid->qtKitVideo) return (-1);
- 
+
  if (width) *width = (int)(vid->qtKitVideo.bufWidth);
  if (height) *height = (int)(vid->qtKitVideo.bufHeight);
- 
+
  return (0);
  }
  */
@@ -556,7 +557,7 @@ void ar2VideoSetGotImageFunctionQuickTime7(AR2VideoParamQuickTime7T *vid, void (
                 }
             }
         }
-    }    
+    }
 }
 
 void (*ar2VideoGetGotImageFunctionQuickTime7(AR2VideoParamQuickTime7T *vid))(AR2VideoBufferT *, void *)

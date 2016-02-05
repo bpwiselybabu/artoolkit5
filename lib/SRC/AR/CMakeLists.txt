@@ -1,22 +1,14 @@
+
 set(ARTK_AR_SRCS
 ./ar3DCreateHandle.c
 ./paramDecomp.c
 ./paramLT.c
-./mMul.c
-./vAlloc.c
 ./arGetMarkerInfo.c
-./mPCA.c
 ./arGetTransMat.c
-./mTrans.c
-./arUtil.c
 ./arImageProc.c
 ./arPattGetID.c
-./mAlloc.c
 ./arDetectMarker2.c
-./mAllocMul.c
-./mDup.c
 ./arGetTransMatStereo.c
-./mUnit.c
 ./arLabelingSub/arLabelingSubDWRC.c
 ./arLabelingSub/arLabelingSubEBRC.c
 ./arLabelingSub/arLabelingSubEWZ.c
@@ -96,30 +88,16 @@ set(ARTK_AR_SRCS
 ./ar3DUtil.c
 ./arLabeling.c
 ./arCreateHandle.c
-./mAllocUnit.c
-./mDet.c
 ./paramDisp.c
 ./arPattLoad.c
-./mFree.c
 ./arPattSave.c
-./mSelfInv.c
-./mAllocInv.c
-./mAllocDup.c
-./vTridiag.c
 ./arGetLine.c
 ./paramGetPerspective.c
-./mInv.c
-./vDisp.c
 ./arFilterTransMat.c
 ./arPattAttach.c
-./mAllocTrans.c
-./mDisp.c
-./vFree.c
 ./paramChangeSize.c
 ./arPattCreateHandle.c
-./vInnerP.c
 ./paramDistortion.c
-./vHouse.c
 ./paramClear.c
 ./paramFile.c
 ./arDetectMarker.c
@@ -133,14 +111,12 @@ ${ARTK_INCLUDE_DIR}/AR/matrix.h
 ${ARTK_INCLUDE_DIR}/AR/gsub_mtx.h
 ${ARTK_INCLUDE_DIR}/AR/arImageProc.h
 ${ARTK_INCLUDE_DIR}/AR/arosg.h
-${ARTK_INCLUDE_DIR}/AR/icpCalib.h
 ${ARTK_INCLUDE_DIR}/AR/arConfig.h
 ${ARTK_INCLUDE_DIR}/AR/gsub_lite.h
 ${ARTK_INCLUDE_DIR}/AR/gsubConfig.h
 ${ARTK_INCLUDE_DIR}/AR/ar.h
 ${ARTK_INCLUDE_DIR}/AR/video.h
 ${ARTK_INCLUDE_DIR}/AR/gsub.h
-${ARTK_INCLUDE_DIR}/AR/icp.h
 ${ARTK_INCLUDE_DIR}/AR/sys/videoWindowsDirectShow.h
 ${ARTK_INCLUDE_DIR}/AR/sys/videoLinux1394Cam.h
 ${ARTK_INCLUDE_DIR}/AR/sys/MovieVideo.h
@@ -162,16 +138,20 @@ ${ARTK_INCLUDE_DIR}/AR/sys/videoAndroid.h
 ${ARTK_INCLUDE_DIR}/AR/sys/videoWindowsMediaCapture.h
 ${ARTK_INCLUDE_DIR}/AR/sys/videoWindowsDragonFly.h
 ${ARTK_INCLUDE_DIR}/AR/sys/videoLinux1394CamV2.h
-${ARTK_INCLUDE_DIR}/AR/icpCore.h
 ${ARTK_INCLUDE_DIR}/AR/arFilterTransMat.h
 ${ARTK_INCLUDE_DIR}/AR/arvrml.h
 ${ARTK_INCLUDE_DIR}/AR/arMulti.h
 ${ARTK_INCLUDE_DIR}/AR/param.h)
 
+
 add_library(AR ${ARTK_AR_SRCS} ${ARTK_AR_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR})
 
-target_link_libraries(AR ${OpenCV_LIBS} ${ARIcp})
+target_link_libraries(AR ${OpenCV_LIBS} ARCore ARIcp)
+
+if(APPLE)
+    target_link_libraries(AR "-framework CoreFoundation" "-framework Accelerate")
+endif()
 
 install(TARGETS AR
 	RUNTIME DESTINATION bin COMPONENT main			# Install the dll file in bin directory

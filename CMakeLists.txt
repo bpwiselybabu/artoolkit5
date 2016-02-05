@@ -39,9 +39,9 @@ if(APPLE)
     set_property(CACHE VIDEO_BACKEND PROPERTY STRINGS "QuickTime" "Cam1394_Mac")
 endif()
 
-if(UNIX AND NOT ANDROID)
+if(UNIX AND NOT ANDROID AND NOT APPLE)
     set_property(CACHE VIDEO_BACKEND PROPERTY STRINGS "GStreamer" "Video4Linux" "Video4Linux2" "Cam1394_Linux")
-endif(UNIX AND NOT ANDROID)
+endif(UNIX AND NOT ANDROID AND NOT APPLE)
 
 if(WIN32)
     set_property(CACHE VIDEO_BACKEND PROPERTY STRINGS "MediaFondation" "DirectShow")

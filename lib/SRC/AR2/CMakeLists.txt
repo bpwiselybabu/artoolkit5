@@ -33,7 +33,7 @@ ${ARTK_INCLUDE_DIR}/AR2/util.h
 add_library(AR2 ${ARTK_AR2_SRCS} ${ARTK_AR2_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR} )
 
-target_link_libraries(AR2 ${AR})
+target_link_libraries(AR2 AR ${JPEG_LIBRARIES} ARUtil)
 
 install(TARGETS AR2
 	RUNTIME DESTINATION bin COMPONENT main			# Install the dll file in bin directory
