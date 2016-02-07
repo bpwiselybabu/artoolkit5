@@ -358,32 +358,32 @@ enum {
 #define  AR_LITTLE_ENDIAN
 
 // Input modules. This is edited by the configure script.
-#define AR_INPUT_DUMMY
-#undef  AR_INPUT_IMAGE
-#undef  AR_INPUT_WINDOWS_DIRECTSHOW
+#cmakedefine AR_INPUT_DUMMY
+#cmakedefine  AR_INPUT_IMAGE
+#cmakedefine  AR_INPUT_WINDOWS_DIRECTSHOW
 #if !defined(_WIN64) || _MSC_VER >= 1800 // DSVideoLib 64-bit only on release for Visual Studio 2013 and later.
-#undef  AR_INPUT_WINDOWS_DSVIDEOLIB
+#cmakedefine  AR_INPUT_WINDOWS_DSVIDEOLIB
 #endif
 #ifndef _WIN64 // QuickTime is not available for 64-bit.
 #undef  AR_INPUT_QUICKTIME
 #endif
-#undef  AR_INPUT_WINDOWS_DRAGONFLY
-#undef  AR_INPUT_WINDOWS_MEDIA_FOUNDATION
-#undef  AR_INPUT_WINDOWS_MEDIA_CAPTURE
+#cmakedefine  AR_INPUT_WINDOWS_DRAGONFLY
+#cmakedefine  AR_INPUT_WINDOWS_MEDIA_FOUNDATION
+#cmakedefine  AR_INPUT_WINDOWS_MEDIA_CAPTURE
 
 // Default input module. This is edited by the configure script.
-#undef  AR_DEFAULT_INPUT_DUMMY
-#undef  AR_DEFAULT_INPUT_IMAGE
-#undef  AR_DEFAULT_INPUT_WINDOWS_DIRECTSHOW
+#cmakedefine  AR_DEFAULT_INPUT_DUMMY
+#cmakedefine  AR_DEFAULT_INPUT_IMAGE
+#cmakedefine  AR_DEFAULT_INPUT_WINDOWS_DIRECTSHOW
 #if !defined(_WIN64) || _MSC_VER >= 1800 // DSVideoLib 64-bit only on release for Visual Studio 2013 and later.
-#undef  AR_DEFAULT_INPUT_WINDOWS_DSVIDEOLIB
+#cmakedefine  AR_DEFAULT_INPUT_WINDOWS_DSVIDEOLIB
 #endif
 #ifndef _WIN64 // QuickTime is not available for 64-bit.
 #undef  AR_DEFAULT_INPUT_QUICKTIME
 #endif
-#undef  AR_DEFAULT_INPUT_WINDOWS_DRAGONFLY
-#undef  AR_DEFAULT_INPUT_WINDOWS_MEDIA_FOUNDATION
-#undef  AR_DEFAULT_INPUT_WINDOWS_MEDIA_CAPTURE
+#cmakedefine  AR_DEFAULT_INPUT_WINDOWS_DRAGONFLY
+#cmakedefine  AR_DEFAULT_INPUT_WINDOWS_MEDIA_FOUNDATION
+#cmakedefine  AR_DEFAULT_INPUT_WINDOWS_MEDIA_CAPTURE
 
 // Other Windows-only configuration.
 #define HAVE_LIBJPEG 1

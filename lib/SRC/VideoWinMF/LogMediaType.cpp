@@ -411,8 +411,8 @@ LPCWSTR GetGUIDNameConst(const GUID& guid)
     IF_EQUAL_RETURN(guid, MFAudioFormat_AAC); //              WAVE_FORMAT_MPEG_HEAAC 
     IF_EQUAL_RETURN(guid, MFAudioFormat_ADTS); //             WAVE_FORMAT_MPEG_ADTS_AAC 
 #ifndef _WINRT
-	IF_EQUAL_RETURN(guid, FORMAT_VideoInfo);
-	IF_EQUAL_RETURN(guid, FORMAT_VideoInfo2);
+	//IF_EQUAL_RETURN(guid, FORMAT_VideoInfo);
+	//IF_EQUAL_RETURN(guid, FORMAT_VideoInfo2);
 #endif
     return NULL;
 }
