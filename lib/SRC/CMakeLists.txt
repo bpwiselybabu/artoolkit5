@@ -18,6 +18,14 @@ if(APPLE)
   endif()
 endif()
 
+if(WIN32)
+    if(VIDEO_BACKEND STREQUAL "MediaFondation")
+        add_subdirectory(./VideoWinMF)
+    elseif(VIDEO_BACKEND STREQUAL "DirectShow")
+        add_subdirectory(./VideoWinDS)
+  endif()
+endif()
+
 
 add_subdirectory(./Util)
 add_subdirectory(./ARICP)

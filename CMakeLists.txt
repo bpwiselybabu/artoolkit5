@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.4)
 project(ARToolKit)
 
 #Append to CMAKE_MODULE_PATH the ./cmake folder which should contain FindGStreamer.cmake
@@ -7,6 +7,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 set(ARTK_VERSION "5.3.1")
 
 set(BUILD_SHARED_LIBS ON)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 set(BUILD_EXAMPLES ON CACHE BOOL "Build the examples")
 
@@ -48,79 +49,90 @@ if(WIN32)
 endif()
 
 
-    #This is usefull to enable the desired video backend
-    #define all variables to OFF
-    set(VIDEO_BACKEND_LIBS)
-    #LINUX
-    set(VIDEO_LIB)
-    #  Detect 3rd-party video IO libraries
-    if(VIDEO_BACKEND STREQUAL "GStreamer")
-        find_package(GStreamer)
-        include_directories(${GSTREAMER_INCLUDE_DIRS})
-        set(VIDEO_LIB ${GSTREAMER_LIBRARIES})
+#This is usefull to enable the desired video backend
+#define all variables to OFF
+set(VIDEO_BACKEND_LIBS)
+#LINUX
+set(VIDEO_LIB)
+#  Detect 3rd-party video IO libraries
+if(VIDEO_BACKEND STREQUAL "GStreamer")
+    find_package(GStreamer)
+    include_directories(${GSTREAMER_INCLUDE_DIRS})
+    set(VIDEO_LIB ${GSTREAMER_LIBRARIES})
 
-        set(AR_INPUT_GSTREAMER ON)
-        set(AR_DEFAULT_INPUT_GSTREAMER ON)
+    set(AR_INPUT_GSTREAMER ON)
+    set(AR_DEFAULT_INPUT_GSTREAMER ON)
 
-        set(VIDEO_BACKEND_LIBS "ARVideoGStreamer")
+    set(VIDEO_BACKEND_LIBS "ARVideoGStreamer")
 
-    elseif(VIDEO_BACKEND STREQUAL "Video4Linux")
-        find_package(V4L)
-        set(VIDEO_LIB ${Video4Linux_LIB})
-        include_directories(${Video4Linux_HEADER})
+elseif(VIDEO_BACKEND STREQUAL "Video4Linux")
+    find_package(V4L)
+    set(VIDEO_LIB ${Video4Linux_LIB})
+    include_directories(${Video4Linux_HEADER})
 
-        set(AR_INPUT_V4L ON)
-        set(AR_DEFAULT_INPUT_V4L ON)
+    set(AR_INPUT_V4L ON)
+    set(AR_DEFAULT_INPUT_V4L ON)
 
-        set(VIDEO_BACKEND_LIBS "ARVideoLinuxV4L")
+    set(VIDEO_BACKEND_LIBS "ARVideoLinuxV4L")
 
-    elseif(VIDEO_BACKEND STREQUAL "Cam1394_Linux")
-        find_package(lib1394dc)
-        set(VIDEO_LIB ${lib1394dc_LIB})
-        include_directories(${lib1394dc_HEADER})
-        set(AR_INPUT_CAM1394 ON)
-        set(AR_DEFAULT_INPUT_1394CAM ON)
+elseif(VIDEO_BACKEND STREQUAL "Cam1394_Linux")
+    find_package(lib1394dc)
+    set(VIDEO_LIB ${lib1394dc_LIB})
+    include_directories(${lib1394dc_HEADER})
+    set(AR_INPUT_CAM1394 ON)
+    set(AR_DEFAULT_INPUT_1394CAM ON)
 
-        set(VIDEO_BACKEND_LIBS "ARVideoLinux1394Cam")
+    set(VIDEO_BACKEND_LIBS "ARVideoLinux1394Cam")
 
-    elseif(VIDEO_BACKEND STREQUAL "Video4Linux2")
-        #TODO
-        find_package(V4L2)
-        set(VIDEO_LIB ${V4L2_LIB})
-        include_directories(${V4L2_HEADER})
+elseif(VIDEO_BACKEND STREQUAL "Video4Linux2")
+    #TODO
+    find_package(V4L2)
+    set(VIDEO_LIB ${V4L2_LIB})
+    include_directories(${V4L2_HEADER})
 
-        set(AR_INPUT_V4L2 ON)
-        set(AR_DEFAULT_INPUT_V4L2 ON)
+    set(AR_INPUT_V4L2 ON)
+    set(AR_DEFAULT_INPUT_V4L2 ON)
 
-        set(VIDEO_BACKEND_LIBS "ARVideoLinuxV4L2")
+    set(VIDEO_BACKEND_LIBS "ARVideoLinuxV4L2")
 
-    #APPLE
-    elseif(VIDEO_BACKEND STREQUAL "QuickTime")
-        find_package(QuickTime)
-        set(VIDEO_LIB ${QUICKTIME_LIBRARY})
-        include_directories(${QUICKTIME_INCLUDE_DIR})
+#APPLE
+elseif(VIDEO_BACKEND STREQUAL "QuickTime")
+    find_package(QuickTime)
+    set(VIDEO_LIB ${QUICKTIME_LIBRARY})
+    include_directories(${QUICKTIME_INCLUDE_DIR})
 
-        set(AR_INPUT_QUICKTIME7 ON)
-        set(AR_DEFAULT_INPUT_QUICKTIME7 ON)
+    set(AR_INPUT_QUICKTIME7 ON)
+    set(AR_DEFAULT_INPUT_QUICKTIME7 ON)
 
-        set(VIDEO_BACKEND_LIBS "ARVideoQuickTime7")
-        #TODO
+    set(VIDEO_BACKEND_LIBS "ARVideoQuickTime7")
+    #TODO
 
-    elseif(VIDEO_BACKEND STREQUAL "Cam1394_Mac")
-        #TODO
-    #Windows
-    elseif(VIDEO_BACKEND STREQUAL "MediaFondation")
-        #TODO
-        set(VIDEO_BACKEND_LIBS "ARVideoWinMF")
+elseif(VIDEO_BACKEND STREQUAL "Cam1394_Mac")
+    #TODO
+#Windows
+elseif(VIDEO_BACKEND STREQUAL "MediaFondation")
+    find_package(MediaFoundation REQUIRED)
+    set(VIDEO_LIB ${MEDIAFOUNDATION_LIBRARIES})
+    include_directories(${MEDIAFOUNDATION_INCLUDE_DIR})
 
-    elseif(VIDEO_BACKEND STREQUAL "DirectShow")
-        #TODO
-        set(VIDEO_BACKEND_LIBS "ARVideoWinDS")
-    #Others cases like "None"
-    else()
-        #TODO
-        set(VIDEO_BACKEND_LIBS "ARVideoWinDummy")
-    endif()
+    set(AR_INPUT_WINDOWS_MEDIA_FOUNDATION ON)
+    set(AR_DEFAULT_INPUT_WINDOWS_MEDIA_FOUNDATION ON)
+    
+    set(VIDEO_BACKEND_LIBS "MediaFondation")
+elseif(VIDEO_BACKEND STREQUAL "DirectShow")
+    find_package(DirectShow REQUIRED)
+    set(VIDEO_LIB ${DIRECTSHOW_LIBRARIES})
+    include_directories(${DIRECTSHOW_INCLUDE_DIR})
+
+    set(AR_INPUT_WINDOWS_DIRECTSHOW ON)
+    set(AR_DEFAULT_INPUT_WINDOWS_DIRECTSHOW ON)
+    
+    set(VIDEO_BACKEND_LIBS "DirectShow")
+#Others cases like "None"
+else()
+    #TODO
+    set(VIDEO_BACKEND_LIBS "ARVideoWinDummy")
+endif()
 
 set(ENABLE_VRML_RENDER_EXAMPLES OFF CACHE BOOL "Enable VRML Render and Examples.")
 set(ENABLE_OSG_RENDER_EXAMPLES OFF CACHE BOOL "Enable OpenSceneGraph Render and Examples.")

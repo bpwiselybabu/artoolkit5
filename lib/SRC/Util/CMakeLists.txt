@@ -1,12 +1,24 @@
-set(ARTK_AR_UTILS_SRCS
-./profile.c
-./thread_sub.c
-)
-
 set(ARTK_AR_UTILS_HEADERS
-${ARTK_INCLUDE_DIR}/profile.h
-${ARTK_INCLUDE_DIR}/thread_sub.h
+    ${ARTK_INCLUDE_DIR}/profile.h
+    ${ARTK_INCLUDE_DIR}/thread_sub.h
 )
+    
+if(WIN32)
+    set(ARTK_AR_UTILS_SRCS 
+        ./profile.c 
+        ./thread_sub_winrt.cpp
+        ./thread_sub.c
+    )
+    list(APPEND ARTK_AR_UTILS_HEADERS
+        ./thread_sub_winrt.h
+    )
+    add_definitions(-DARUTIL_DISABLE_PTHREADS)
+else()
+    set(ARTK_AR_UTILS_SRCS 
+        ./profile.c 
+        ./thread_sub.c
+    )
+endif()
 
 add_library(ARUtil ${ARTK_AR_UTILS_SRCS} ${ARTK_AR_UTILS_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR} )
