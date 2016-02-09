@@ -29,20 +29,19 @@ This archive was assembled by:
     2015-10-05
 
 
-Build From the sources
+Build From the sources [![Build Status](https://travis-ci.org/schweitzer/artoolkit5.svg?branch=cmake_build)](https://travis-ci.org/schweitzer/artoolkit5)
 ----------
-[![Build Status](https://travis-ci.org/schweitzer/artoolkit5.svg?branch=master)](https://travis-ci.org/schweitzer/artoolkit5)
 
 This Version of ARToolkit is an experimental version based on cmake :
 
-    You need to install the latest version of cmake (>=3.4.1)
+You need to install the latest version of cmake (>=3.4.1)
 
-    To configure the project :
-    * Create a 'build' and a 'install' folders outside of the sources
-    * Go inside your 'build directory' and launch 'ccmake' or 'cmake-gui' 'path/to/the/sources'
-    * Fill out the differents options you want
-    * do 'configure' then 'generate'
-    * the do a 'make install' to build and install the ARToolkit libraries
+To configure the project :
+* Create a 'build' and a 'install' folders outside of the sources
+* Go inside your 'build directory' and launch 'ccmake' or 'cmake-gui' 'path/to/the/sources'
+* Fill out the differents options you want
+* do 'configure' then 'generate'
+* the do a 'make install' to build and install the ARToolkit libraries
 
 
 
@@ -67,21 +66,21 @@ An explanation of the sourcecode of this example can be found on the page http:/
 	* Bundled applications are generated for the examples. Open the "bin" directory in the Finder and double-click the "simpleLite" example app. Application errors are logged in the Console application.
 
   Linux:
-  
+
 	* simpleLite can be launched from a terminal window thus:
 	  First, set the environment variable ARTOOLKIT5_VCONF to indicate the video device to be used;
-	  for example, to use a V4L2 camera, do 
+	  for example, to use a V4L2 camera, do
 	    export ARTOOLKIT5_VCONF="-device=LinuxV4L2"
-	    
+
 	    or to use a camera driven via GStreamer, do
-	    
+
 	    export ARTOOLKIT5_VCONF="-device=GStreamer"
-	    
+
 	    then cd to the bin directory and do
-	    
+
 		./simpleLite
-		
-		
+
+
 Beginning your own development
 ------------------------------
 
@@ -90,11 +89,11 @@ In beginning your own development, it is recommended that you create your own pr
 Required external software
 
   * A supported compiler or IDE is required to use ARToolKit:
-  
+
 	Windows: Microsoft Visual Studio 2013 and Microsoft Visual Studio 2010 SP1 are supported. The free Microsoft Visual Studio Express Edition will also work.
 	Mac OS X: Xcode tools v5.1 under Mac OS X 10.9 or later is required. Xcode 6 under Mac OS X 10.10 is recommended. Xcode may be obtained free from Apple at http://developer.apple.com/xcode/.
     Linux: g++ with libstdc++, or Clang and LLVM's libc++ are required. For the latter, install Packages: 'clang', 'libc++-dev'.
-	
+
   Where ARToolKit libraries require external DLLs, these are generally supplied with ARToolKit. Exceptions are listed below.
 
   Windows
@@ -116,7 +115,7 @@ Required external software
 	* Video4Linux, lib1394dc, or GStreamer. Packages: 'libv4l2-0', 'libdc1394-22' (for lib1394 version 2.x) or 'libdc1394-13' (for lib1394 version 1.x), and 'libgstreamer0.10'.
 	* OpenSceneGraph (optional; The ARToolKit OSG renderer requires OpenSceneGraph). Package 'openscenegraph'.
 	* OpenVRML (optional; the ARToolKit VRML renderer requires OpenVRML): Binary deb packages are available from http://www.openvrml.org/.
-	
+
 
 Release notes.
 --------------
