@@ -111,7 +111,7 @@ elseif(DEFAULT_VIDEO_BACKEND STREQUAL "Cam1394_Mac")
 elseif(DEFAULT_VIDEO_BACKEND STREQUAL "MediaFondation")
 
     set(AR_DEFAULT_INPUT_WINDOWS_MEDIA_FOUNDATION ON)
-    
+
 
 elseif(DEFAULT_VIDEO_BACKEND STREQUAL "DirectShow")
 
@@ -162,7 +162,14 @@ endif()
 
 # Globaly enabled c++11
 if(NOT WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.7")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++0x")
+        else()
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
+        endif()
+    endif()
+
     if(APPLE)
        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --stdlib=libc++")
     endif(APPLE)
