@@ -6,11 +6,17 @@ Contents.
 ---------
 
 About this archive.
-Installing.
+
+Build with CMake.
+
 Running the examples.
+
 Beginning your own development.
+
 Release notes.
+
 libKPM usage.
+
 Next steps.
 
 
@@ -29,7 +35,7 @@ This archive was assembled by:
     2015-10-05
 
 
-Build From the sources [![Build Status](https://travis-ci.org/schweitzer/artoolkit5.svg?branch=cmake_build)](https://travis-ci.org/schweitzer/artoolkit5)
+Build with CMake. [![Build Status](https://travis-ci.org/schweitzer/artoolkit5.svg?branch=cmake_build)](https://travis-ci.org/schweitzer/artoolkit5)
 ----------
 
 This Version of ARToolkit is an experimental version based on cmake :
@@ -37,13 +43,19 @@ This Version of ARToolkit is an experimental version based on cmake :
 You need to install the latest version of cmake (>=3.4.1)
 
 To configure the project :
-* Create a 'build' and a 'install' folders outside of the sources
-* Go inside your 'build directory' and launch 'ccmake' or 'cmake-gui' 'path/to/the/sources'
-* Fill out the differents options you want
-* do 'configure' then 'generate'
-* the do a 'make install' to build and install the ARToolkit libraries
+* Create a *'build'* and a *'install'* folders outside of the sources
+* Open a terminal and go inside your *'build'* directory and launch *'ccmake'* or *'cmake-gui'*
 
+like this : ```$ cmake ./path/to/the/sources ```
+* Fill out the differents options asked by cmake
+* do *'configure'* then *'generate'*
+* the do a *'make install'* to build and install the ARToolkit libraries
 
+The build was tested on Linux, OSX and Windows.
+
+No support for mobile platform was performed.
+
+** This work is still on progress, it may change rapidly. **
 
 Running the examples
 --------------------
@@ -53,19 +65,20 @@ The simpleLite example is the most straightforward example. It can be run to tes
 
 An explanation of the sourcecode of this example can be found on the page http://www.artoolkit.org/documentation/Examples:example_simplelite. More detailed information about the techniques demonstrated in each example can be found in the documentation.
 
-  Windows:
+ * Windows:
 
-	simpleLite can be opened by double-clicking its icon in the ARToolKit5\bin directory. Alternately, you can run it from the command line:
+    simpleLite can be opened by double-clicking its icon in the ARToolKit5\bin directory. Alternately, you can run it from the command line:
 
-	* Open a command-line window (cmd.exe).
-	* Navigate to your ARToolKit5\bin directory.
-	* Type: simpleLite.exe
+    * Open a command-line window (cmd.exe).
+    * Navigate to your ARToolKit5\bin directory.
+    * Type: simpleLite.exe
 
-  Mac OS X:
+
+  * Mac OS X:
 
 	* Bundled applications are generated for the examples. Open the "bin" directory in the Finder and double-click the "simpleLite" example app. Application errors are logged in the Console application.
 
-  Linux:
+  * Linux:
 
 	* simpleLite can be launched from a terminal window thus:
 	  First, set the environment variable ARTOOLKIT5_VCONF to indicate the video device to be used;
@@ -154,6 +167,3 @@ http://www.artoolkit.org/community/lists/
 
 
 Do you have a feature request, bug report, or other code you would like to contribute to ARToolKit? Access the complete source and issue tracker for ARToolKit at http://github.com/artoolkit/artoolkit5
-
---
-EOF
