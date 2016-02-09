@@ -29,37 +29,22 @@ This archive was assembled by:
     2015-10-05
 
 
-Installing
+Build From the sources
 ----------
 
-ARToolKit is supplied as pre-built binaries for each platform, plus full source code for the SDK libraries, utilities, and examples, and documentation.
+[![Build Status](https://travis-ci.org/schweitzer/artoolkit5/project.png)](https://travis-ci.org/schweitzer/artoolkit5/project)
 
-  Windows
+This Version of ARToolkit is an experimental version based on cmake :
 
-	Run the ARToolKit installer executable and follow the prompts.
-	By default, ARToolKit will be installed into a folder inside your Program Files folder. Start menu items are created to allow you to quickly open the folder containing the installed software, to open a command-line prompt with the path set to this folder, and to read documentation and access this support site. The installer also automatically creates the ARTOOLKIT5_ROOT environment variable to point to your chosen install location.
+    You need to install the latest version of cmake (>=3.4.1)
 
-	If you are upgrading to a newer version, it is generally safe to install over the old version. Before upgrading, save any modifications you have made to any ARToolKit source or example code, and then run the installer. The installer will add or update new files, and remove unneeded old files.
-	
-  Mac OS X
+    To configure the project :
+    * Create a 'build' and a 'install' folders outside of the sources
+    * Go inside your 'build directory' and launch 'ccmake' or 'cmake-gui' 'path/to/the/sources'
+    * Fill out the differents options you want
+    * do 'configure' then 'generate'
+    * the do a 'make install' to build and install the ARToolkit libraries
 
-	The SDK is supplied as an archive file (.tar.gz or .zip file) which need only be unpacked to a location of your choice, e.g. ~/SDKs/. Drop the archive into your chosen location and double-click it in the Finder to unpack it.
-	
-	Once unpacked, to set the ARTOOLKIT5_ROOT so that other software can find ARToolKit, open a Terminal window, and run the script artoolkit5-setenv: (Example assumes ARToolKit5 is in ~/SDKs/):
-	
-		cd ~/SDKs/ARToolKit5/
-		./share/artoolkit5-setenv
-
-  Linux
-
-	The SDK is supplied as an archive file (.tar.gz) which need only be unpacked to a location of your choice, e.g. ~/SDKs/. Move the archive into your chosen location and use the following command in your terminal to unpack it:
-	
-		tar xzvf ARToolKit5-bin-*.tar.gz
-
-	Once unpacked, to set the ARTOOLKIT5_ROOT so that other software can find ARToolKit, open a terminal window, and run the script artoolkit5-setenv: (Example assumes ARToolKit5 is in ~/SDKs/):
-
-		cd ~/SDKs/ARToolKit5/
-		./share/artoolkit5-setenv
 
 
 Running the examples
@@ -133,23 +118,6 @@ Required external software
 	* OpenSceneGraph (optional; The ARToolKit OSG renderer requires OpenSceneGraph). Package 'openscenegraph'.
 	* OpenVRML (optional; the ARToolKit VRML renderer requires OpenVRML): Binary deb packages are available from http://www.openvrml.org/.
 	
-Opening the project files
-
-  Windows
-  
-	Open the "VisualStudio" directory, then the appropriate directory for your compiler version, and then the "ARToolKit5.sln" solution file.
-
-  Mac OS X
-
-	Open the ARToolKit5.xcodeproj, found inside the Xcode folder.
-
-  Linux
-
-	The SDK build system uses a Configure script and makefiles. To run the script, use this command from a terminal window:
-
-		./Configure
-
-
 
 Release notes.
 --------------

@@ -1,0 +1,35 @@
+language: cpp
+sudo: false
+addons:
+  apt:
+    packages:
+    - build-essential
+    - ninja-build
+    - python2.7
+    - git
+    - wget
+    - libopencv-dev
+    - libjpeg-dev
+    - libdc1394-22
+    - freeglut3
+    - xorg
+    - libv4l2-0
+
+branches:
+    only:
+        - cmake_build
+compiler:
+    - gcc
+before_script:
+    - wget -q --no-check-certificate https://cmake.org/files/v3.4/cmake-3.4.1-Linux-x86_64.tar.gz
+    - tar xzf cmake-3.4.1-Linux-x86_64.tar.gz > /dev/null
+    - export CMAKE_BIN=$PWD/cmake-3.4.1-Linux-x86_64/bin/cmake
+    - mkdir build/debug build/release src/
+    - cd src
+    - git clone https://github.com/schweitzer/artoolkit5.git
+    - git checkout --quiet --orphan $TRAVIS_BRANCH
+    - git reset --hard
+    - git clean -f -d
+    - cd ../../build/debug
+    - $CMAKE_BIN ../../src/artoolkit5 -DCMAKE_INSTALL_PREFIX:PATH=../../install/debug -DBUILD_EXAMPLES:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=DEBUG -DUSE_GSTREAMER:BOOL=ON -DUSE_V4Lv2:BOOL:ON -DUSE_CAM1394_LINUXv2:BOOL=ON
+script: make install
