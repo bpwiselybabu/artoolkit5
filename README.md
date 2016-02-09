@@ -31,8 +31,7 @@ This archive was assembled by:
 
 Build From the sources
 ----------
-
-[![Build Status](https://travis-ci.org/schweitzer/artoolkit5/project.png)](https://travis-ci.org/schweitzer/artoolkit5/project)
+[![Build Status](https://travis-ci.org/schweitzer/artoolkit5.svg?branch=master)](https://travis-ci.org/schweitzer/artoolkit5)
 
 This Version of ARToolkit is an experimental version based on cmake :
 
