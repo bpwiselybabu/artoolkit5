@@ -10,12 +10,12 @@ set(ARTK_VIDEOWINMF_HEADERS
     ./BufferLock.h
 )
 
-add_library(MediaFondation STATIC ${ARTK_VIDEOWINMF_SRCS} ${ARTK_VIDEOWINMF_HEADERS})
+add_library(ARTKVideoMediaFondation STATIC ${ARTK_VIDEOWINMF_SRCS} ${ARTK_VIDEOWINMF_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR} )
 
-target_link_libraries(MediaFondation AR)
+target_link_libraries(ARTKVideoMediaFondation ARTKAr)
 
-install(TARGETS MediaFondation
+install(TARGETS ARTKVideoMediaFondation
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib )

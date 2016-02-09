@@ -30,16 +30,16 @@ ${ARTK_INCLUDE_DIR}/AR/matrix.h
 )
 
 
-add_library(ARCore ${ARTK_ARCORE_SRCS} ${ARTK_ARCORE_HEADERS})
+add_library(ARTKCore ${ARTK_ARCORE_SRCS} ${ARTK_ARCORE_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR})
 
 if(APPLE)
-    target_link_libraries(ARCore "-framework CoreFoundation")
+    target_link_libraries(ARTKCore "-framework CoreFoundation")
 endif()
 
 
 
-install(TARGETS ARCore
+install(TARGETS ARTKCore
         RUNTIME DESTINATION bin COMPONENT main			# Install the dll file in bin directory
         LIBRARY DESTINATION lib PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE COMPONENT main
         ARCHIVE DESTINATION lib COMPONENT main)			# Install the dll.a file in lib directory

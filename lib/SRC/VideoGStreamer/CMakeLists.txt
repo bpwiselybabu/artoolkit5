@@ -10,12 +10,12 @@ ${ARTK_INCLUDE_DIR}/AR/videoConfig.h
 ${ARTK_INCLUDE_DIR}/AR/sys/videoGStreamer.h
 )
 
-add_library(ARVideoGStreamer ${ARTK_VIDEOGSTREAMER_SRCS} ${ARTK_VIDEOGSTREAMER_HEADERS})
+add_library(ARTKVideoGStreamer ${ARTK_VIDEOGSTREAMER_SRCS} ${ARTK_VIDEOGSTREAMER_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR} )
 
-target_link_libraries(ARVideoGStreamer ${GSTREAMER_LIBRARIES})
+target_link_libraries(ARTKVideoGStreamer ${GSTREAMER_LIBRARIES})
 
-install(TARGETS ARVideoGStreamer
+install(TARGETS ARTKVideoGStreamer
 	RUNTIME DESTINATION bin COMPONENT main # Install the dll file in bin directory
 	LIBRARY DESTINATION lib PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE COMPONENT main
 	ARCHIVE DESTINATION lib COMPONENT main) # Install the dll.a file in lib directory

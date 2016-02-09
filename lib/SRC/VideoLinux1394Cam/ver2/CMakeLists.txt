@@ -1,0 +1,24 @@
+set(ARTK_VIDEOLINUX1394CAM_SRCS
+./video1394V2.c
+./video1394V2format.c
+./video1394V2setting.c
+)
+
+set(ARTK_VIDEOLINUX1394CAM_HEADERS
+    ${ARTK_INCLUDE_DIR}/AR/sys/videoLinux1394Cam.h
+    ./video1394V2Private.h
+)
+
+add_library(ARTKVideoLinux1394Cam ${ARTK_VIDEOLINUX1394CAM_SRCS} ${ARTK_VIDEOLINUX1394CAM_HEADERS})
+include_directories( ${ARTK_INCLUDE_DIR} )
+
+target_link_libraries(ARTKVideoLinux1394Cam ${DC1394_LIBRARIES})
+
+install(TARGETS ARTKVideoLinux1394Cam
+        RUNTIME DESTINATION bin COMPONENT main # Install the dll file in bin directory
+        LIBRARY DESTINATION lib PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE COMPONENT main
+        ARCHIVE DESTINATION lib COMPONENT main) # Install the dll.a file in lib directory
+
+install(FILES ${ARTK_VIDEOLINUX1394CAM_HEADERS}
+        DESTINATION include/${PROJECT_NAME}
+        COMPONENT main)

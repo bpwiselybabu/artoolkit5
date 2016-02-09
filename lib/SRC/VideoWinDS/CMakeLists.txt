@@ -9,13 +9,13 @@ set(ARTK_VIDEOWINDS_HEADERS
     ./videoWinDSPrivate.h
 )
 
-add_library(DirectShow STATIC ${ARTK_VIDEOWINDS_SRCS} ${ARTK_VIDEOWINDS_HEADERS})
+add_library(ARTKVideoDirectShow STATIC ${ARTK_VIDEOWINDS_SRCS} ${ARTK_VIDEOWINDS_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR} )
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-target_link_libraries(DirectShow AR)
+target_link_libraries(ARTKVideoDirectShow ARTKAr)
 
-install(TARGETS DirectShow
+install(TARGETS ARTKVideoDirectShow
 	RUNTIME DESTINATION bin
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib )

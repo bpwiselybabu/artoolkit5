@@ -77,13 +77,13 @@ ${ARTK_INCLUDE_DIR}/KPM/kpmType.h
 ./FreakMatcher/utils/point.h
 )
 
-add_library(KPM ${ARTK_KPM_SRCS} ${ARTK_KPM_HEADERS})
+add_library(ARTKKpm ${ARTK_KPM_SRCS} ${ARTK_KPM_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR}  ./FreakMatcher/)
 
-target_link_libraries(KPM AR ARIcp ${JPEG_LIBRARIES})
+target_link_libraries(ARTKKpm ARTKAr ARTKIcp ${JPEG_LIBRARIES})
 
 
-install(TARGETS KPM
+install(TARGETS ARTKKpm
 	RUNTIME DESTINATION bin COMPONENT main # Install the dll file in bin directory
 	LIBRARY DESTINATION lib PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE COMPONENT main
 	ARCHIVE DESTINATION lib COMPONENT main) # Install the dll.a file in lib directory

@@ -1,32 +1,54 @@
+# Core library
 add_subdirectory(./Core)
 
+# Video libraries
+# LINUX
 if(UNIX AND NOT ANDROID AND NOT APPLE)
-    if(VIDEO_BACKEND STREQUAL "GStreamer")
+
+    if(USE_GSTREAMER)
         add_subdirectory(./VideoGStreamer)
-    elseif(VIDEO_BACKEND STREQUAL "Video4Linux")
-        add_subdirectory(./VideoV4L)
-    elseif(VIDEO_BACKEND STREQUAL "Cam1394_Linux")
+    endif()
+
+    if(USE_V4Lv1)
+        add_subdirectory(./VideoLinuxV4L)
+    endif()
+
+    if(USE_V4Lv2)
+        add_subdirectory(./VideoLinuxV4L2)
+    endif()
+
+    if(USE_CAM1394_LINUXv1 OR USE_CAM1394_LINUXv2)
         add_subdirectory(./VideoLinux1394Cam)
     endif()
+
 endif()
 
+#APPLE
 if(APPLE)
-    if(VIDEO_BACKEND STREQUAL "QuickTime")
-        add_subdirectory(./videoQuickTime7)
-    elseif(VIDEO_BACKEND STREQUAL "Cam1394_Mac")
-        #TODO
-  endif()
+
+    if(USE_QUICKTIME)
+         add_subdirectory(./videoQuickTime7)
+    endif()
+
+    if(USE_CAM1394_MAC)
+    endif()
+
 endif()
 
+#WINDOWS
 if(WIN32)
-    if(VIDEO_BACKEND STREQUAL "MediaFondation")
+
+    if(USE_MEDIAFONDATION)
         add_subdirectory(./VideoWinMF)
-    elseif(VIDEO_BACKEND STREQUAL "DirectShow")
+    endif()
+
+    if(USE_DIRECTSHOW)
         add_subdirectory(./VideoWinDS)
-  endif()
+    endif()
+
 endif()
 
-
+# Others libraries
 add_subdirectory(./Util)
 add_subdirectory(./ARICP)
 add_subdirectory(./Video)

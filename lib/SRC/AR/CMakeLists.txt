@@ -144,16 +144,16 @@ ${ARTK_INCLUDE_DIR}/AR/arMulti.h
 ${ARTK_INCLUDE_DIR}/AR/param.h)
 
 
-add_library(AR ${ARTK_AR_SRCS} ${ARTK_AR_HEADERS})
+add_library(ARTKAr ${ARTK_AR_SRCS} ${ARTK_AR_HEADERS})
 include_directories( ${ARTK_INCLUDE_DIR})
 
-target_link_libraries(AR ${OpenCV_LIBS} ARCore ARIcp)
+target_link_libraries(ARTKAr ARTKCore ARTKIcp ${OpenCV_LIBS})
 
 if(APPLE)
-    target_link_libraries(AR "-framework CoreFoundation" "-framework Accelerate")
+    target_link_libraries(ARTKAr "-framework CoreFoundation" "-framework Accelerate")
 endif()
 
-install(TARGETS AR
+install(TARGETS ARTKAr
 	RUNTIME DESTINATION bin COMPONENT main			# Install the dll file in bin directory
 	LIBRARY DESTINATION lib PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE COMPONENT main
 	ARCHIVE DESTINATION lib COMPONENT main)			# Install the dll.a file in lib directory
