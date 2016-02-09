@@ -14,6 +14,7 @@ addons:
     - xorg-dev
     - libv4l-dev
     - libxmu-dev
+    - libgstreamer0.10-dev
 
 branches:
     only:
