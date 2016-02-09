@@ -9,10 +9,11 @@ addons:
     - wget
     - libopencv-dev
     - libjpeg-dev
-    - libdc1394-22
+    - libdc1394-22-dev
     - freeglut3-dev
-    - xorg
+    - xorg-dev
     - libv4l-dev
+    - libxmu-dev
 
 branches:
     only:
