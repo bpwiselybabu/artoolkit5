@@ -23,6 +23,6 @@ before_script:
     - tar xzf cmake-3.4.1-Linux-x86_64.tar.gz > /dev/null
     - export CMAKE_BIN=$PWD/cmake-3.4.1-Linux-x86_64/bin/cmake
     - mkdir -p build/debug build/release src/
-    - cd ../../build/debug
+    - cd ./build/debug
     - $CMAKE_BIN $TRAVIS_BUILD_DIR/artoolkit5 -DCMAKE_INSTALL_PREFIX:PATH=../../install/debug -DBUILD_EXAMPLES:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=DEBUG -DUSE_GSTREAMER:BOOL=ON -DUSE_V4Lv2:BOOL:ON -DUSE_CAM1394_LINUXv2:BOOL=ON
 script: make install
