@@ -24,7 +24,7 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 #Looking for GLUT
 #TODO: check if realy mandatory
 find_package(GLUT REQUIRED )
-include_directories(${GLUT_HEADER})
+include_directories(${GLUT_INCLUDE_DIR})
 
 # Looking for OpenGL
 find_package(OpenGL REQUIRED)
@@ -126,6 +126,8 @@ else()
     set(AR_DEFAULT_INPUT_DUMMY ON)
 endif()
 
+set(AR_DEFAULT_INPUT_DUMMY OFF)
+set(AR_DEFAULT_INPUT_IMAGE ON)
 
 if(BUILD_EXAMPLES)
     set(ENABLE_VRML_RENDER_EXAMPLES OFF CACHE BOOL "Enable VRML Render and Examples.")
