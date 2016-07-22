@@ -37,5 +37,5 @@ install(TARGETS ARTKVideo
 	ARCHIVE DESTINATION lib COMPONENT main)		# Install the dll.a file in lib directory
 
 install(FILES ${ARTK_AR_VIDEO_HEADERS}
-	DESTINATION include/${PROJECT_NAME}
+	DESTINATION include/AR
 	COMPONENT main)

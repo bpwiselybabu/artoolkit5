@@ -44,5 +44,5 @@ install(TARGETS ARTKWrapper
 	ARCHIVE DESTINATION lib COMPONENT main)			# Install the dll.a file in lib directory
 
 install(FILES ${ARTK_WRAPPER_HEADERS}
-	DESTINATION include/${PROJECT_NAME}
+	DESTINATION include/ARWrapper
 	COMPONENT main)

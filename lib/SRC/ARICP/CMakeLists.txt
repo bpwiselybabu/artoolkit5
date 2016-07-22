@@ -31,5 +31,5 @@ install(TARGETS ARTKIcp
 	ARCHIVE DESTINATION lib COMPONENT main)			# Install the dll.a file in lib directory
 
 install(FILES ${ARTK_ARICP_HEADERS}
-	DESTINATION include/${PROJECT_NAME}
+	DESTINATION include/AR
 	COMPONENT main)

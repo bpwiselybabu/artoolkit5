@@ -55,5 +55,5 @@ install(TARGETS ARTKgsub_lite
 	ARCHIVE DESTINATION lib COMPONENT main)			# Install the dll.a file in lib directory
 
 install(FILES ${ARTK_ARGSUB_LITE_HEADERS}
-	DESTINATION include/${PROJECT_NAME}
+	DESTINATION include/AR
 	COMPONENT main)
